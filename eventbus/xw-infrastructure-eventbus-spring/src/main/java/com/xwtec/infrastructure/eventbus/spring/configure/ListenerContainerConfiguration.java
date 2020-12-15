@@ -23,6 +23,7 @@ import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.env.StandardEnvironment;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
@@ -44,12 +45,17 @@ public class ListenerContainerConfiguration implements ApplicationContextAware, 
 
     private RocketMQMessageConverter rocketMQMessageConverter;
 
+    private EventBusProperties eventBusProperties;
+
     public ListenerContainerConfiguration(RocketMQMessageConverter rocketMQMessageConverter,
                                           StandardEnvironment environment,
-                                          RocketMQProperties rocketMQProperties) {
+                                          RocketMQProperties rocketMQProperties,
+                                          EventBusProperties eventBusProperties
+    ) {
         this.rocketMQMessageConverter = rocketMQMessageConverter;
         this.environment = environment;
         this.rocketMQProperties = rocketMQProperties;
+        this.eventBusProperties = eventBusProperties;
     }
 
     @Override

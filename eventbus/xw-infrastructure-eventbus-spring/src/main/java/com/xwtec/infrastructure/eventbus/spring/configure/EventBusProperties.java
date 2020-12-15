@@ -5,6 +5,10 @@ import org.apache.rocketmq.spring.annotation.MessageModel;
 import org.apache.rocketmq.spring.annotation.SelectorType;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.apache.rocketmq.spring.annotation.RocketMQMessageListener.*;
 
 /**
@@ -16,6 +20,8 @@ import static org.apache.rocketmq.spring.annotation.RocketMQMessageListener.*;
 public class EventBusProperties {
 
     AsyncProperties async = new AsyncProperties();
+
+    private List<ConsumerProperties> consumers;
 
     //异步对列配置
     public class AsyncProperties {
@@ -64,6 +70,39 @@ public class EventBusProperties {
         }
     }
 
+    //消费者
+    public static class ConsumerProperties{
+
+        private String consumerGroup;
+        private String topic;
+        private String type;
+
+
+        public String getConsumerGroup() {
+            return consumerGroup;
+        }
+
+        public void setConsumerGroup(String consumerGroup) {
+            this.consumerGroup = consumerGroup;
+        }
+
+        public String getTopic() {
+            return topic;
+        }
+
+        public void setTopic(String topic) {
+            this.topic = topic;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+    }
+
 
     public AsyncProperties getAsync() {
         return async;
@@ -71,5 +110,13 @@ public class EventBusProperties {
 
     public void setAsync(AsyncProperties async) {
         this.async = async;
+    }
+
+    public List<ConsumerProperties> getConsumers() {
+        return consumers;
+    }
+
+    public void setConsumers(List<ConsumerProperties> consumers) {
+        this.consumers = consumers;
     }
 }
