@@ -1,5 +1,6 @@
 package com.xwtec.infrastructure.eventbus.spring.produce.impl;
 
+import com.xwtec.infrastructure.eventbus.spring.core.EventBusPayload;
 import com.xwtec.infrastructure.eventbus.spring.produce.IEventBus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,10 +17,10 @@ public class SpringEventBus implements IEventBus {
     ApplicationEventPublisher publisher;
 
     @Override
-    public void post(Object message) {
+    public void post(EventBusPayload message) {
         log.info("SpringEventBus");
         if(message!=null){
-            publisher.publishEvent(message);
+            publisher.publishEvent(message.getPayload());
         }
     }
 }

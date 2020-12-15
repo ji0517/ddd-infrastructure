@@ -1,6 +1,8 @@
 package com.xwtec.infrastructure.eventbus.spring.produce;
 
 
+import com.xwtec.infrastructure.eventbus.spring.core.EventBusPayload;
+
 /**
  *<p>
  *
@@ -9,5 +11,5 @@ package com.xwtec.infrastructure.eventbus.spring.produce;
  */
 public interface IEventBus {
 
-    void post(Object message);
+    void post(EventBusPayload message);
 }
