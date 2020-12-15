@@ -1,24 +1,14 @@
 package com.xwtec.infrastructure.eventbus.spring.configure;
 
-import com.xwtec.infrastructure.eventbus.spring.consume.ApplicationEventListener;
-import org.apache.rocketmq.client.AccessChannel;
-import org.apache.rocketmq.client.exception.MQClientException;
-import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.spring.autoconfigure.RocketMQProperties;
-import org.apache.rocketmq.spring.autoconfigure.RocketMQProperties.Producer;
-import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.apache.rocketmq.spring.support.RocketMQMessageConverter;
-import org.apache.rocketmq.spring.support.RocketMQUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.StandardEnvironment;
-import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 
@@ -49,11 +39,11 @@ public class EventBusAutoConfiguration {
     private RocketMQMessageConverter rocketMQMessageConverter;
 
 
-    @Bean
-    public ApplicationEventListener mqEventBus()  {
-        ApplicationEventListener applicationEventListener = new ApplicationEventListener();
-        return applicationEventListener;
-    }
+//    @Bean
+//    public ApplicationEventListener mqEventBus()  {
+//        ApplicationEventListener applicationEventListener = new ApplicationEventListener();
+//        return applicationEventListener;
+//    }
 
 //    @Bean
 //    public RocketMQTemplate mqEventBus()  {

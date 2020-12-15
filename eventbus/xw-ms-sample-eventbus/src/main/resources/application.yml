@@ -19,14 +19,12 @@ xw:
       max-pool-size: 60
       queue-capacity: 10000
     consumers:
-      - consumer-group: test
+      - group: test
         topic: test
         type: Normal
-      - consumer-group: test1
-        topic: test1
-        type: Orderly
-
-
+      - group: test0
+        topic: test0
+        type: Normal
 
 
 spring:

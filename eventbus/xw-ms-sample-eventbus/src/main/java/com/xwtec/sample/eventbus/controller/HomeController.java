@@ -30,9 +30,12 @@ public class HomeController {
 
 //        rocketMQTemplate.
 
-        EventBusPayload eventBusPayload = EventBusPayload.local(new AccountCreatedEvent("account1212121"));
+        EventBusPayload eventBusPayload = EventBusPayload.normal("test",new AccountCreatedEvent("account1212121"));
+        eventBus.post(eventBusPayload);
         eventBus.post(eventBusPayload);
 
+        EventBusPayload eventBusPayload1 = EventBusPayload.normal("test0",new AccountCreatedEvent("aaaa"));
+        eventBus.post(eventBusPayload1);
 //        publisher.publishEvent(new AccountCreatedEvent("account"));
 
         return ResponseEntity.ok(strings);
