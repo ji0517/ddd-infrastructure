@@ -4,33 +4,35 @@ public class EventBusPayload {
 
     private EventMessageType eventMessageType;
     private String topic;
+    private String group;
     private Object payload;
 
     private EventBusPayload(){
 
     }
 
-    private EventBusPayload(EventMessageType eventMessageType,String topic,Object payload){
+    private EventBusPayload(EventMessageType eventMessageType,String group,String topic,Object payload){
         this.eventMessageType = eventMessageType;
         this.payload = payload;
         this.topic = topic;
+        this.group = group;
     }
 
 
     public static   EventBusPayload local(Object payload){
-        return new EventBusPayload(EventMessageType.LOCAL,"none",payload);
+        return new EventBusPayload(EventMessageType.LOCAL,"none","none",payload);
     }
 
-    public static EventBusPayload normal(String topic,  Object payload){
-        return new EventBusPayload(EventMessageType.NORMAL,topic,payload);
+    public static EventBusPayload normal(String group,String topic,  Object payload){
+        return new EventBusPayload(EventMessageType.NORMAL,group,topic,payload);
     }
 
-    public static EventBusPayload orderly(String topic,  Object payload){
-        return new EventBusPayload(EventMessageType.ORDERLY,topic,payload);
+    public static EventBusPayload orderly(String group,String topic,  Object payload){
+        return new EventBusPayload(EventMessageType.ORDERLY,group,topic,payload);
     }
 
-    public static  EventBusPayload transaction(String topic,  Object payload){
-        return new EventBusPayload(EventMessageType.TRANSACTION,topic,payload);
+    public static  EventBusPayload transaction(String group,String topic,  Object payload){
+        return new EventBusPayload(EventMessageType.TRANSACTION,group,topic,payload);
     }
 
     public EventMessageType getEventMessageType() {
@@ -45,4 +47,11 @@ public class EventBusPayload {
         return payload;
     }
 
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
 }
