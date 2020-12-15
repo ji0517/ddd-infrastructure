@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xwtec.infrastructure.export.dao.ExportTaskMapper">
+
+    <resultMap id="RMExportTaskInfo" type="com.xwtec.infrastructure.export.model.ExportTaskInfo">
+        <result property="taskId" column="F_TASK_ID"/>
+        <result property="taskName" column="F_NAME"/>
+        <result property="taskStatus" column="F_STATUS"/>
+        <result property="taskStatusMsg" column="F_STATUS_MSG"/>
+        <result property="retryNum" column="F_RETRY_NUM"/>
+        <result property="businessType" column="F_BUSINESS_TYPE"/>
+        <result property="printFormat" column="F_PRINT_FORMAT"/>
+        <result property="exportFormat" column="F_EXPORT_FORMAT"/>
+        <result property="exportFileName" column="F_EXPORT_FILENAME"/>
+        <result property="sqlStatement" column="F_SQL_STATEMENT"/>
+        <result property="sqlSelected" column="F_SQL_SELECTED"/>
+        <result property="tenantNum" column="F_TENANT_NUM"/>
+        <result property="createTime" column="F_CREATE_TIME"/>
+        <result property="createMancode" column="F_CREATE_MANCODE"/>
+        <result property="createManname" column="F_CREATE_MANNAME"/>
+        <result property="lastTime" column="F_LAST_TIME"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.xwtec.infrastructure.export.model.ExportTaskInfo">
+        INSERT INTO T_EXPORT_TASK (
+        F_TASK_ID,
+        F_NAME,
+        F_STATUS,
+        F_STATUS_MSG,
+        F_RETRY_NUM,
+        F_BUSINESS_TYPE,
+        F_EXPORT_FORMAT,
+        F_PRINT_FORMAT,
+        F_EXPORT_FILENAME,
+        F_SQL_STATEMENT,
+        F_SQL_SELECTED,
+        F_TENANT_NUM,
+        F_CREATE_TIME,
+        F_CREATE_MANCODE,
+        F_CREATE_MANNAME,
+        F_LAST_TIME
+        ) VALUES (
+        #{taskId,jdbcType=VARCHAR}
+        , #{taskName,jdbcType=VARCHAR}
+        , #{taskStatus,jdbcType=INTEGER}
+        , #{taskStatusMsg,jdbcType=VARCHAR}
+        , #{retryNum,jdbcType=INTEGER}
+        , #{businessType,jdbcType=VARCHAR}
+        , #{exportFormat,jdbcType=VARCHAR}
+        , #{printFormat,jdbcType=VARCHAR}
+        , #{exportFileName,jdbcType=VARCHAR}
+        , #{sqlStatement,jdbcType=VARCHAR}
+        , #{sqlSelected,jdbcType=VARCHAR}
+        , #{tenantNum,jdbcType=VARCHAR}
+        , #{createTime,jdbcType=VARCHAR}
+        , #{createMancode,jdbcType=VARCHAR}
+        , #{createManname,jdbcType=VARCHAR}
+        , #{lastTime,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.xwtec.infrastructure.export.model.ExportTaskInfo">
+        UPDATE T_EXPORT_TASK
+        SET F_STATUS = #{taskStatus,jdbcType=INTEGER}
+            , F_STATUS_MSG = #{taskStatusMsg,jdbcType=VARCHAR}
+            , F_RETRY_NUM = #{retryNum,jdbcType=INTEGER}
+            , F_LAST_TIME = #{lastTime,jdbcType=VARCHAR}
+        WHERE F_TASK_ID = #{taskId,jdbcType=VARCHAR}
+    </update>
+
+    <sql id="QueryFields">
+        F_TASK_ID,
+        F_NAME,
+        F_STATUS,
+        F_STATUS_MSG,
+        F_RETRY_NUM,
+        F_BUSINESS_TYPE,
+        F_EXPORT_FORMAT,
+        F_PRINT_FORMAT,
+        F_EXPORT_FILENAME,
+        F_SQL_STATEMENT,
+        F_SQL_SELECTED,
+        F_TENANT_NUM,
+        F_CREATE_TIME,
+        F_CREATE_MANCODE,
+        F_CREATE_MANNAME,
+        F_LAST_TIME
+    </sql>
+
+    <select id="query" resultMap="RMExportTaskInfo">
+        SELECT <include refid="QueryFields" />
+        from T_EXPORT_TASK T
+        <where>
+            T.F_TENANT_NUM = #{tenantNum,jdbcType=VARCHAR}
+            <if test="taskStatus != null and taskStatus != ''">
+                AND T.F_STATUS = #{taskStatus,jdbcType=INTEGER}
+            </if>
+            <if test="taskStatusMsg != null and taskStatusMsg != ''">
+                AND T.F_STATUS_MSG like concat(concat('%', #{taskStatusMsg,jdbcType=VARCHAR}), '%')
+            </if>
+            <if test="businessType != null and businessType != ''">
+                AND T.F_BUSINESS_TYPE = #{businessType,jdbcType=VARCHAR}
+            </if>
+            <if test="createMancode != null and createMancode != ''">
+                AND T.F_CREATE_MANCODE = #{createMancode,jdbcType=VARCHAR}
+            </if>
+            <if test="taskId != null and taskId != ''">
+                AND T.F_TASK_ID = #{taskId,jdbcType=VARCHAR}
+            </if>
+            <if test="taskName != null and taskName != ''">
+                AND T.F_NAME like concat(concat('%', #{taskName,jdbcType=VARCHAR}), '%')
+            </if>
+            <if test="exportFormat != null and exportFormat != ''">
+                AND T.F_EXPORT_FORMAT like concat('%', #{exportFormat,jdbcType=VARCHAR}
+            </if>
+            <if test="queryBeginTime != null and queryBeginTime != ''">
+                <![CDATA[
+                AND T.F_CREATE_TIME >= #{queryBeginTime,jdbcType=VARCHAR}
+                 ]]>
+            </if>
+            <if test="queryEndTime != null and queryEndTime != ''">
+                <![CDATA[
+                AND T.F_CREATE_TIME <= #{queryEndTime,jdbcType=VARCHAR}
+                 ]]>
+            </if>
+            <choose>
+                <when test="querySort != null and querySort != ''">
+                    ORDER BY ${querySort}
+                </when>
+                <otherwise>
+                    ORDER BY F_LAST_TIME DESC
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <select id="queryTasks" resultMap="RMExportTaskInfo">
+        SELECT <include refid="QueryFields" />
+        from T_EXPORT_TASK T
+        <where>
+            T.F_STATUS IN
+            <foreach collection="states" item="state" open="(" close=")" separator=",">
+                #{state,jdbcType=INTEGER}
+            </foreach>
+            <choose>
+                <when test="retryNum > 0">
+                    AND T.F_RETRY_NUM > 0
+                </when>
+            </choose>
+            ORDER BY F_LAST_TIME ASC
+        </where>
+    </select>
+
+
+</mapper>
+

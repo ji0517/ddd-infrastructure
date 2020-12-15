@@ -1,0 +1,28 @@
+server:
+  port: 9080
+
+rocketmq:
+  name-server: 192.168.4.65:9876
+  producer:
+    group: ${spring.application.name}
+  consumer:
+    listeners:
+      test:
+        test: true
+        type: No
+
+
+xw:
+  eventbus:
+    async:
+      core-pool-size: 2
+      keep-alive-seconds: 500
+      max-pool-size: 60
+      queue-capacity: 10000
+
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: xw-ms-eventbus

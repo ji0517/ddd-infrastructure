@@ -1,0 +1,25 @@
+# Created by .ignore support plugin (hsz.mobi)
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+out
+/deploy
+# Java class files
+*.class
+
+
+# Gradle files
+.gradle/
+build/
+
+
+# Log Files
+*.log
+
+# Others
+.idea/
+*.iml
+/logs
+buildSrc/codegen/src/
+~*
