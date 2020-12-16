@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -24,22 +25,31 @@ public class EventBus implements IEventBus {
 
     public void post(EventBusPayload message) {
         EventMessageType eventMessageType = message.getEventMessageType();
-        switch (eventMessageType) {
-            case LOCAL:
-                eventBusMap.get("springEventBus").post(message);
-                break;
-            case NORMAL:
-                eventBusMap.get("normalEventBus").post(message);
-                break;
-            case ORDERLY:
-                eventBusMap.get("orderlyEventBus").post(message);
-                break;
-            case TRANSACTION:
-                eventBusMap.get("transactionEventBus").post(message);
-                break;
-            default:
-                throw new UnsupportedOperationException("not supported!!");
+        String eventbusType = eventMessageType.name().toLowerCase() + "EventBus";
+        IEventBus eventBus = eventBusMap.get(eventbusType);
+        if (eventBus != null) {
+            eventBus.post(message);
+        } else {
+            throw new UnsupportedOperationException("not supported!!");
         }
+
+
+//        switch (eventMessageType) {
+//            case LOCAL:
+//                eventBusMap.get("springEventBus").post(message);
+//                break;
+//            case NORMAL:
+//                eventBusMap.get("normalEventBus").post(message);
+//                break;
+//            case ORDERLY:
+//                eventBusMap.get("orderlyEventBus").post(message);
+//                break;
+//            case TRANSACTION:
+//                eventBusMap.get("transactionEventBus").post(message);
+//                break;
+//            default:
+//                throw new UnsupportedOperationException("not supported!!");
+//        }
 
     }
 }

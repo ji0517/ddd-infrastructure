@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
-@Component("springEventBus")
-public class SpringEventBus implements IEventBus {
+@Component("localEventBus")
+public class LocalEventBus implements IEventBus {
 
-    private static final Logger log = LoggerFactory.getLogger(SpringEventBus.class);
+    private static final Logger log = LoggerFactory.getLogger(LocalEventBus.class);
 
     @Autowired
     ApplicationEventPublisher publisher;
