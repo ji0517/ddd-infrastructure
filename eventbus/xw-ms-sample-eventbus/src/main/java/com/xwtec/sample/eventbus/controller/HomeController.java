@@ -29,13 +29,17 @@ public class HomeController {
         strings.add("1");
 
 
-        EventBusPayload eventBusPayload = EventBusPayload.normal("test","test",new AccountCreatedEvent("account1212121"));
+        EventBusPayload eventBusPayload = EventBusPayload.normal(
+                "test",new AccountCreatedEvent("account1212121"));
         eventBus.post(eventBusPayload);
-        eventBus.post(eventBusPayload);
+//        eventBus.post(eventBusPayload);
 
-        EventBusPayload eventBusPayload1 = EventBusPayload.normal("test0","test0",new AccountCreatedEvent("aaaa"));
+        EventBusPayload eventBusPayload1 = EventBusPayload.normal("test",new AccountCreatedEvent("aaaa"));
         eventBus.post(eventBusPayload1);
 //        publisher.publishEvent(new AccountCreatedEvent("account"));
+
+
+
 
         return ResponseEntity.ok(strings);
     }

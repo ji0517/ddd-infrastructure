@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component("orderlyEventBus")
 public class OrderlyEventBus implements IEventBus {
 
@@ -21,7 +23,11 @@ public class OrderlyEventBus implements IEventBus {
     @Override
     public void post(EventBusPayload message) {
 
-        this.template.asyncSendOrderly(message.getTopic(), message,message.getGroup(), new SendCallback() {
+        this.template.asyncSendOrderly(
+                message.getTopic(),
+                message,
+                message.getTopic() + UUID.randomUUID().toString(),
+                new SendCallback() {
             @Override
             public void onSuccess(SendResult sendResult) {
                 log.info("异步顺序消息发送成功，message = {}, SendStatus = {}", message, sendResult.getSendStatus());

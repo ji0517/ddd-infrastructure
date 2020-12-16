@@ -5,10 +5,10 @@ rocketmq:
   name-server: 192.168.4.65:9876
   producer:
     group: ${spring.application.name}
-  consumer:
-    listeners:
-      test:
-        test: true
+#  consumer:
+#    listeners:
+#      test:
+#        test: true
 
 
 xw:
@@ -21,10 +21,10 @@ xw:
     consumers:
       - group: test
         topic: test
-        type: Normal
+        name-server: 192.168.4.65:9876
       - group: test0
-        topic: test0
-        type: Normal
+        topic: test
+        name-server: 192.168.4.65:9876
 
 
 spring:
