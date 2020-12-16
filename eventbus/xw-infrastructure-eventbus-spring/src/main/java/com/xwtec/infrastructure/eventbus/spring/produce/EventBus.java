@@ -1,6 +1,5 @@
 package com.xwtec.infrastructure.eventbus.spring.produce;
 
-import com.xwtec.infrastructure.eventbus.spring.annotation.*;
 import com.xwtec.infrastructure.eventbus.spring.core.EventBusPayload;
 import com.xwtec.infrastructure.eventbus.spring.core.EventMessageType;
 import org.slf4j.Logger;
@@ -24,34 +23,6 @@ public class EventBus implements IEventBus {
 
 
     public void post(EventBusPayload message) {
-//        Class clazz = message.getClass();
-//        Annotation[] annotations = clazz.getAnnotations();
-//        Supplier<Stream<Annotation>> streamSupplier = () -> Arrays.stream(annotations);
-//
-//        if (streamSupplier.get().anyMatch(e -> e.annotationType() == EventMessage.class)) {
-//            Annotation annotation = streamSupplier.get().filter(e -> e.annotationType() == EventMessage.class).findFirst().get();
-//            EventMessage eventMessage = message.getClass().getAnnotation(EventMessage.class);
-//            EventMessageType eventMessageType = eventMessage.messageType();
-//            switch (eventMessageType) {
-//                case LOCAL:
-//                    eventBusMap.get("springEventBus").post(message);
-//                    break;
-//                case NORMAL:
-//                    eventBusMap.get("normalEventBus").post(message);
-//                    break;
-//                case ORDEARLY:
-//                    eventBusMap.get("orderlyEventBus").post(message);
-//                    break;
-//                case TRANSACTION:
-//                    eventBusMap.get("transactionEventBus").post(message);
-//                    break;
-//                default:
-//                    throw new UnsupportedOperationException("not supported!!");
-//            }
-//        } else {
-//            throw new UnsupportedOperationException("not supported!!");
-//        }
-
         EventMessageType eventMessageType = message.getEventMessageType();
         switch (eventMessageType) {
             case LOCAL:

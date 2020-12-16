@@ -28,7 +28,6 @@ public class HomeController {
         List<String> strings = new ArrayList<>() ;
         strings.add("1");
 
-//        rocketMQTemplate.
 
         EventBusPayload eventBusPayload = EventBusPayload.normal("test","test",new AccountCreatedEvent("account1212121"));
         eventBus.post(eventBusPayload);

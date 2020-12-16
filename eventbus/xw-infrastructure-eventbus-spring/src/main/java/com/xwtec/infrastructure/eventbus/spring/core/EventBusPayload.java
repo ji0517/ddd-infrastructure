@@ -1,7 +1,10 @@
 package com.xwtec.infrastructure.eventbus.spring.core;
 
+import java.util.UUID;
+
 public class EventBusPayload {
 
+    private String id;
     private EventMessageType eventMessageType;
     private String topic;
     private String group;
@@ -12,6 +15,7 @@ public class EventBusPayload {
     }
 
     private EventBusPayload(EventMessageType eventMessageType,String group,String topic,Object payload){
+        this.id = UUID.randomUUID().toString();
         this.eventMessageType = eventMessageType;
         this.payload = payload;
         this.topic = topic;
@@ -33,6 +37,10 @@ public class EventBusPayload {
 
     public static  EventBusPayload transaction(String group,String topic,  Object payload){
         return new EventBusPayload(EventMessageType.TRANSACTION,group,topic,payload);
+    }
+
+    public String getId() {
+        return id;
     }
 
     public EventMessageType getEventMessageType() {
