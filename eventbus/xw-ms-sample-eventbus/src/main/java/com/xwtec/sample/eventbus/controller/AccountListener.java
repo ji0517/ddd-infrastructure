@@ -32,12 +32,12 @@ public class AccountListener {
     }
 
 
-    @EventListener(condition = "#event.topic == 'test' && #event.group == 'test'")
+    @EventListener(condition = "#event.topic == 'test'")
     public void processAccountCreatedEvent3(EventBusPayload event) {
         log.info("发11:{}",event.getPayload());
     }
 
-    @EventListener(condition = "#event.topic == 'test0' and #event.group == 'test0'")
+    @EventListener(condition = "#event.topic == 'test0'")
     public void processAccountCreatedEvent4(EventBusPayload event) {
         log.info("发22:{}",event.getPayload());
     }

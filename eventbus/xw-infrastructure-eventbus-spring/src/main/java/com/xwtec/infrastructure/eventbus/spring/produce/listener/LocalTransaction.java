@@ -2,9 +2,10 @@ package com.xwtec.infrastructure.eventbus.spring.produce.listener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
+@Component("test1LocalTransaction")
 public class LocalTransaction implements ILocalTransaction {
 
     private static final Logger log = LoggerFactory.getLogger(CustomRocketMQTransactionListener.class);

@@ -9,7 +9,7 @@ public class EventBusPayload {
     private String topic;
     private Object payload;
 
-    private EventBusPayload(){
+    public EventBusPayload(){
 
     }
 
@@ -53,4 +53,19 @@ public class EventBusPayload {
         return payload;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setEventMessageType(EventMessageType eventMessageType) {
+        this.eventMessageType = eventMessageType;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+    public void setPayload(Object payload) {
+        this.payload = payload;
+    }
 }

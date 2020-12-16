@@ -26,12 +26,16 @@ public class TransactionEventBus implements IEventBus {
     @Override
     public void post(EventBusPayload message) {
         String transactionId = UUID.randomUUID().toString();
+        long beginTimestampFirst = System.currentTimeMillis();
         TransactionSendResult result = this.template.sendMessageInTransaction(
                 message.getTopic(),
                 MessageBuilder.withPayload(message)
                         .setHeader(RocketMQHeaders.TRANSACTION_ID, transactionId)
+                        .setHeader(RocketMQHeaders.TOPIC, message.getTopic())
                         .build(),
                 message);
-        log.info("发送事务消息（半消息）完成：result = {}", result);
+
+        long endTimestampFirst = System.currentTimeMillis();
+        log.info("发送事务消息（半消息）完成：time = {},result = {}",endTimestampFirst-beginTimestampFirst,result);
     }
 }

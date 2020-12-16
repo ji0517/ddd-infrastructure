@@ -38,8 +38,10 @@ public class HomeController {
         eventBus.post(eventBusPayload1);
 //        publisher.publishEvent(new AccountCreatedEvent("account"));
 
-
-
+//
+//        EventBusPayload eventBusPayload2 = EventBusPayload.transaction(
+//                "test1",new AccountCreatedEvent("xxxaaaa"));
+//        eventBus.post(eventBusPayload2);
 
         return ResponseEntity.ok(strings);
     }

@@ -5,6 +5,7 @@ rocketmq:
   name-server: 192.168.4.65:9876
   producer:
     group: ${spring.application.name}
+    sendMessageTimeout: 30000
 #  consumer:
 #    listeners:
 #      test:
