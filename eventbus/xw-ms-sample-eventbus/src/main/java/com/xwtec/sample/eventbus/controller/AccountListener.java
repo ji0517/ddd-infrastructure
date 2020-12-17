@@ -40,6 +40,7 @@ public class AccountListener {
     }
 
     @EventListener(condition = "#event.topic == 'test0'")
+    @Async
     public void processAccountCreatedEvent4(EventBusPayload event) {
         log.info("发22:{}",event.getPayload());
     }

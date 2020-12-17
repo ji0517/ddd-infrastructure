@@ -208,4 +208,5 @@ extra.deps {
 
     "jpa-spec"("com.github.wenhao:jpa-spec:3.2.5")
 
+    "h2"("com.h2database:h2:1.4.200")
 }

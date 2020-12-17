@@ -1,9 +1,8 @@
 package com.xwtec.sample.eventbus.controller;
 
+
 import com.xwtec.infrastructure.eventbus.spring.core.EventBusPayload;
-import com.xwtec.infrastructure.eventbus.spring.produce.EventBus;
 import com.xwtec.infrastructure.eventbus.spring.produce.IEventBus;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
