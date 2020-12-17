@@ -3,9 +3,11 @@ package com.xwtec.infrastructure.eventbus.spring.produce.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.xwtec.infrastructure.eventbus.spring.core.EventBusPayload;
+import com.xwtec.infrastructure.eventbus.spring.produce.EventBusResult;
 import com.xwtec.infrastructure.eventbus.spring.produce.IEventBus;
 import org.apache.rocketmq.client.producer.SendCallback;
 import org.apache.rocketmq.client.producer.SendResult;
+import org.apache.rocketmq.client.producer.SendStatus;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.slf4j.Logger;
@@ -22,18 +24,23 @@ public class NormalEventBus implements IEventBus {
     private RocketMQTemplate template;
 
     @Override
-    public void post(EventBusPayload message) {
-
-        this.template.asyncSend(message.getTopic(), message, new SendCallback() {
-            @Override
-            public void onSuccess(SendResult sendResult) {
-                log.info("异步消息发送成功，message = {}, SendStatus = {}", message, sendResult.getSendStatus());
+    public EventBusResult post(EventBusPayload message) {
+        log.debug("NormalEventBus");
+        if (message != null) {
+            try {
+                SendResult sendResult = this.template.syncSend(message.getTopic(), message);
+                log.debug("同步消息发送成功，message = {}, SendStatus = {}", message, sendResult.getSendStatus());
+                if (sendResult.getSendStatus().name().equals(SendStatus.SEND_OK.name())) {
+                    return EventBusResult.ok();
+                } else {
+                    return EventBusResult.fail(sendResult.getSendStatus().toString());
+                }
+            } catch (Exception ex) {
+                log.error("消息发送异常:", ex);
+                return EventBusResult.fail("消息发送异常：" + ex.getMessage());
             }
-
-            @Override
-            public void onException(Throwable e) {
-                log.info("异步消息发送异常，exception = {}", e.getMessage());
-            }
-        });
+        } else {
+            return EventBusResult.fail("参数EventBusPayload message值为null");
+        }
     }
 }

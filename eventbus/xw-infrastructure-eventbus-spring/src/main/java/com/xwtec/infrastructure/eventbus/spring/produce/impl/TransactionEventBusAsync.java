@@ -3,8 +3,7 @@ package com.xwtec.infrastructure.eventbus.spring.produce.impl;
 import com.xwtec.infrastructure.eventbus.spring.core.EventBusPayload;
 import com.xwtec.infrastructure.eventbus.spring.produce.EventBusResult;
 import com.xwtec.infrastructure.eventbus.spring.produce.IEventBus;
-import org.apache.rocketmq.client.producer.SendCallback;
-import org.apache.rocketmq.client.producer.SendResult;
+import com.xwtec.infrastructure.eventbus.spring.produce.IEventBusAsync;
 import org.apache.rocketmq.client.producer.TransactionSendResult;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.apache.rocketmq.spring.support.RocketMQHeaders;
@@ -15,18 +14,19 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
+import java.util.function.Consumer;
 
-@Component("transactionEventBus")
-public class TransactionEventBus implements IEventBus {
+@Component("transactionEventBusAsync")
+public class TransactionEventBusAsync implements IEventBusAsync {
 
-    private static final Logger log = LoggerFactory.getLogger(TransactionEventBus.class);
+    private static final Logger log = LoggerFactory.getLogger(TransactionEventBusAsync.class);
 
     @Autowired
     private RocketMQTemplate template;
 
     @Override
-    public EventBusResult post(EventBusPayload message) {
-        log.debug("TransactionEventBus");
+    public void post(EventBusPayload message, Consumer<EventBusResult> consumer) {
+        log.debug("TransactionEventBusAsync");
         if (message != null) {
             try {
                 String transactionId = UUID.randomUUID().toString();
@@ -39,15 +39,16 @@ public class TransactionEventBus implements IEventBus {
                                 .build(),
                         message);
                 long endTimestampFirst = System.currentTimeMillis();
-                log.info("发送事务消息（半消息）完成：time = {},result = {}", endTimestampFirst - beginTimestampFirst, result);
-                return EventBusResult.ok("发送事务消息完成");
+                log.debug("发送事务消息（半消息）完成：time = {},result = {}", endTimestampFirst - beginTimestampFirst, result);
+                consumer.accept(EventBusResult.ok("发送事务消息完成"));
             } catch (Exception ex) {
+                consumer.accept(EventBusResult.fail("消息发送异常：" + ex.getMessage()));
                 log.error("消息发送异常:", ex);
-                return EventBusResult.fail("消息发送异常：" + ex.getMessage());
-
             }
         } else {
-            return EventBusResult.fail("参数EventBusPayload message值为null");
+            consumer.accept(EventBusResult.fail("参数EventBusPayload message值为null"));
         }
     }
+
 }
+

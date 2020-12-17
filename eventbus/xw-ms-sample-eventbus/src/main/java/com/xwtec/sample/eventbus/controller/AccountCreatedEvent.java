@@ -1,8 +1,5 @@
 package com.xwtec.sample.eventbus.controller;
 
-import com.xwtec.infrastructure.eventbus.spring.annotation.EventMessage;
-import com.xwtec.infrastructure.eventbus.spring.annotation.EventMessageType;
-
 public class AccountCreatedEvent {
 
     public AccountCreatedEvent(String type){

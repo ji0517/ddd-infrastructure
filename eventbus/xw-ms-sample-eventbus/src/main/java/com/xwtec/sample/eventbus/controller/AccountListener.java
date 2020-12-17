@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -33,6 +34,7 @@ public class AccountListener {
 
 
     @EventListener(condition = "#event.topic == 'test'")
+    @Async
     public void processAccountCreatedEvent3(EventBusPayload event) {
         log.info("发11:{}",event.getPayload());
     }

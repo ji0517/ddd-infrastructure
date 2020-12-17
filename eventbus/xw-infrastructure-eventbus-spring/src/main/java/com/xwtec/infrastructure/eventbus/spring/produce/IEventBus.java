@@ -11,5 +11,5 @@ import com.xwtec.infrastructure.eventbus.spring.core.EventBusPayload;
  */
 public interface IEventBus {
 
-    void post(EventBusPayload message);
+    EventBusResult post(EventBusPayload message);
 }
