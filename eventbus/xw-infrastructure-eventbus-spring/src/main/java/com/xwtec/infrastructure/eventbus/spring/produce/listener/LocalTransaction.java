@@ -12,12 +12,12 @@ public class LocalTransaction implements ILocalTransaction {
 
 
     @Override
-    public void run(String transactionId, Object arg) {
-        log.info("本地事务执行，{},{}", transactionId, arg);
+    public void executeLocalTransaction(String transactionId, Object payload) {
+        log.info("本地事务执行，{},{}", transactionId, payload);
     }
 
     @Override
-    public boolean complete(String transactionId) {
+    public boolean checkLocalTransaction(String transactionId) {
         log.info("本地事务执行是否完成，{}", true);
         return true;
     }

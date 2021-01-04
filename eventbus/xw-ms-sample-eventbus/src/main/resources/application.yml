@@ -23,13 +23,37 @@ xw:
       - group: test
         topic: test
         name-server: 192.168.4.65:9876
-      - group: test0
-        topic: test
+      - group: SALESORDERCREATED
+        topic: SALESORDERCREATED
+#        selectorExpression: ORDERCREATED
         name-server: 192.168.4.65:9876
 
-
 spring:
-  main:
-    allow-bean-definition-overriding: true
   application:
     name: xw-ms-eventbus
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:h2:mem:sales;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    platform: h2
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+#    schema: classpath:db/schema.sql
+    data: classpath:db/data.sql
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+  h2:
+    console:
+      enabled: true
+      path: /console
+      settings:
+        trace: false
+        web-allow-others: false

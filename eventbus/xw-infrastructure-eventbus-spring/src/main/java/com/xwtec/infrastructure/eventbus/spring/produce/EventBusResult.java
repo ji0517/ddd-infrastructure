@@ -2,9 +2,9 @@ package com.xwtec.infrastructure.eventbus.spring.produce;
 
 public class EventBusResult {
 
-    final static String OK = "ok";
+    public final static String OK = "ok";
 
-    final static String FAIL = "fail";
+    public final static String FAIL = "fail";
 
     private String code;
     private String message;
@@ -25,6 +25,23 @@ public class EventBusResult {
 
     public static EventBusResult fail(String message) {
         return new EventBusResult(FAIL, message);
+    }
+
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     @Override

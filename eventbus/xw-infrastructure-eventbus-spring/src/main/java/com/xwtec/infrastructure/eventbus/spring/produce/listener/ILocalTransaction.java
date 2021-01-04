@@ -2,8 +2,8 @@ package com.xwtec.infrastructure.eventbus.spring.produce.listener;
 
 public interface ILocalTransaction {
 
-    void run(String transactionId,Object arg);
+    void executeLocalTransaction(String transactionId, Object payload);
 
-    boolean complete(String transactionId);
+    boolean checkLocalTransaction(String transactionId);
 
 }

@@ -1,6 +1,5 @@
 package com.xwtec.infrastructure.eventbus.spring.produce.listener;
 
-import com.xwtec.infrastructure.eventbus.spring.consume.DefaultEventListener;
 import org.apache.rocketmq.spring.annotation.RocketMQTransactionListener;
 import org.apache.rocketmq.spring.core.RocketMQLocalTransactionListener;
 import org.apache.rocketmq.spring.core.RocketMQLocalTransactionState;
@@ -8,7 +7,6 @@ import org.apache.rocketmq.spring.support.RocketMQHeaders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -32,7 +30,7 @@ public class CustomRocketMQTransactionListener implements ApplicationContextAwar
         ILocalTransaction localTransaction = applicationContext.getBean(topic + "LocalTransaction", ILocalTransaction.class);
         try {
             //执行本地事务
-            localTransaction.run(transactionId, arg);
+            localTransaction.executeLocalTransaction(transactionId, arg);
             //返回本地事务执行状态为提交，发送事务消息
             log.info("本地事务正常，消息可以被发送了..");
             return RocketMQLocalTransactionState.COMMIT;
@@ -51,11 +49,16 @@ public class CustomRocketMQTransactionListener implements ApplicationContextAwar
             String topic = (String) headers.get(RocketMQHeaders.TOPIC);
             ILocalTransaction localTransaction = applicationContext.getBean(topic + "LocalTransaction", ILocalTransaction.class);
 
-            if (localTransaction.complete(transactionId)) {
+            if(localTransaction == null){
+                return RocketMQLocalTransactionState.UNKNOWN;
+            }
+
+            if (localTransaction.checkLocalTransaction(transactionId)) {
                 return RocketMQLocalTransactionState.COMMIT;
             }
             return RocketMQLocalTransactionState.ROLLBACK;
         } catch (Exception ex) {
+            log.error("checkLocalTransaction:{}",ex);
             return RocketMQLocalTransactionState.UNKNOWN;
         }
     }
