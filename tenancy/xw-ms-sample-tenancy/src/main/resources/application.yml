@@ -1,0 +1,38 @@
+server:
+  port: 9080
+#  consumer:
+#    listeners:
+#      test:
+#        test: true
+
+
+spring:
+  application:
+    name: xw-ms-eventbus
+  main:
+    allow-bean-definition-overriding: true
+#  datasource:
+#    url: jdbc:h2:mem:sales;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+#    platform: h2
+#    username: sa
+#    password:
+#    driverClassName: org.h2.Driver
+#    schema: classpath:db/schema.sql
+#    data: classpath:db/data.sql
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+xw:
+  tenant:
+    enable: true
+    tenant-flag: tenant
+    exclude-path-patterns:
+      - /createOrder1
+    add-path-patterns:
+      - /createOrder
